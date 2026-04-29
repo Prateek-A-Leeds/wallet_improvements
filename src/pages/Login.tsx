@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '@/assets/logo.png';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { mockUsers } from '@/data/users';
 import { getWithExpiry, setWithExpiry } from '@/utils/auth';
 
 type SnackbarType = 'success' | 'error';
+
+type LocationState = {
+  snackbar?: {
+    message: string;
+    type: SnackbarType;
+  };
+};
 
 function Login() {
   const [form, setForm] = useState({
@@ -34,7 +41,17 @@ function Login() {
   const [autoLogin, setAutoLogin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const locationState = location.state as LocationState | null;
+
+    if (locationState?.snackbar) {
+      showSnackbar(locationState.snackbar.message, locationState.snackbar.type);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const token = getWithExpiry('token');

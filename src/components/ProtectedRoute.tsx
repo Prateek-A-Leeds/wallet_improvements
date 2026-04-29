@@ -6,11 +6,29 @@ const routeAccessMap = generateRouteAccessMap();
 
 function ProtectedRoute({ children }: { children?: JSX.Element }) {
   const location = useLocation();
+  const hadStoredSession = Boolean(
+    localStorage.getItem('token') || localStorage.getItem('user'),
+  );
   const token = getWithExpiry('token');
   const user = getWithExpiry('user', true);
   // 🔐 Not logged in
   if (!token || !user) {
-    return <Navigate to="/" replace />;
+    return (
+      <Navigate
+        to="/"
+        replace
+        state={
+          hadStoredSession
+            ? {
+                snackbar: {
+                  message: 'Your session has expired. Please sign in again.',
+                  type: 'error',
+                },
+              }
+            : undefined
+        }
+      />
+    );
   }
 
   const allowedRoles = routeAccessMap[location.pathname];

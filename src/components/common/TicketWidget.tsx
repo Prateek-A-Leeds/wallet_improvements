@@ -41,7 +41,9 @@ const initialForm: TicketFormData = {
   attachment: null,
 };
 
+const MIN_FILE_SIZE = 100 * 1024;
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
 const ALLOWED_FILE_TYPES = [
   'application/pdf',
   'image/jpeg',
@@ -243,6 +245,13 @@ function TicketWidget() {
       event.target.value = '';
       setErrors((prev) => ({ ...prev, attachment: true }));
       showSnackbar('error', 'Only JPG, PNG, WEBP, or PDF files are allowed.');
+      return;
+    }
+
+    if (file.size < MIN_FILE_SIZE) {
+      event.target.value = '';
+      setErrors((prev) => ({ ...prev, attachment: true }));
+      showSnackbar('error', 'File size must be at least 100 KB.');
       return;
     }
 

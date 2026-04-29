@@ -91,6 +91,13 @@ function ProfileMenu({
   };
 
   const themeIndex = theme === 'light' ? 0 : theme === 'system' ? 1 : 2;
+  const canViewTicketHistory = Boolean(
+    user?.role && generateRouteAccessMap()['/ticket-history'].includes(user.role),
+  );
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="relative" ref={menuRef}>
@@ -201,9 +208,7 @@ function ProfileMenu({
               <span>My profile</span>
             </Link>
 
-            {generateRouteAccessMap()['/ticket-history'].includes(
-              user.role,
-            ) && (
+            {canViewTicketHistory && (
               <Link
                 to="/ticket-history"
                 onClick={() => setIsOpen(false)}
