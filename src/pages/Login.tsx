@@ -49,7 +49,7 @@ function Login() {
     setAutoLogin(true);
 
     setTimeout(() => {
-      showSnackbar(`Welcome back ${JSON.parse(user).username}`, 'success');
+      showSnackbar(`Welcome back ${user.username}`, 'success');
 
       setTimeout(() => {
         navigate('/home');

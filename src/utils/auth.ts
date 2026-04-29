@@ -2,7 +2,12 @@ export const logout = () => {
   localStorage.clear();
 };
 
-export const setWithExpiry = (key: string, value: string, ttl: number) => {
+type ExpiringStorageItem = {
+  value: unknown;
+  expiry: number;
+};
+
+export const setWithExpiry = (key: string, value: unknown, ttl: number) => {
   const now = new Date();
 
   const item = {
@@ -13,11 +18,18 @@ export const setWithExpiry = (key: string, value: string, ttl: number) => {
   localStorage.setItem(key, JSON.stringify(item));
 };
 
-export const getWithExpiry = (key: string, parsed: boolean = false) => {
+export const getWithExpiry = <T = any>(key: string, parsed: boolean = false) => {
   const itemStr = localStorage.getItem(key);
   if (!itemStr) return null;
 
-  const item = JSON.parse(itemStr);
+  let item: ExpiringStorageItem;
+
+  try {
+    item = JSON.parse(itemStr);
+  } catch {
+    localStorage.removeItem(key);
+    return null;
+  }
 
   const now = new Date();
 
@@ -27,5 +39,16 @@ export const getWithExpiry = (key: string, parsed: boolean = false) => {
     return null;
   }
 
-  return parsed ? JSON.parse(item.value) : item.value;
+  if (!parsed) return item.value as T;
+
+  if (typeof item.value !== 'string') {
+    return item.value as T;
+  }
+
+  try {
+    return JSON.parse(item.value) as T;
+  } catch {
+    localStorage.removeItem(key);
+    return null;
+  }
 };
