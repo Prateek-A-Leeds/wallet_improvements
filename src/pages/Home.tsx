@@ -38,34 +38,34 @@ function extractLeafModules(
 
 function Home() {
   return (
-    <section className="py-10">
+    <section className="py-6 sm:py-10">
       <Container>
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">
             Dashboard
           </h1>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">
+          <p className="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base dark:text-slate-400">
             Access the available parent modules and open the final modules
             directly.
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {filterModulesByRole(dashboardModules).map((module) => {
             const leafModules = extractLeafModules(module.children!);
 
             return (
               <div
                 key={module.title}
-                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+                className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md sm:p-6 dark:border-slate-800 dark:bg-slate-900"
               >
                 <div className="mb-5 flex items-start gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
                     {module.icon}
                   </div>
 
-                  <div>
-                    <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                  <div className="min-w-0">
+                    <h2 className="text-lg font-semibold text-slate-900 sm:text-xl dark:text-slate-100">
                       {module.title}
                     </h2>
                     <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -85,9 +85,9 @@ function Home() {
                         key={child.to}
                         to={child.to}
                         title={child.path.join(' > ')}
-                        className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                        className="inline-flex max-w-full items-center gap-1 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                       >
-                        {child.title}
+                        <span className="truncate">{child.title}</span>
 
                         {/* optional arrow */}
                         <svg

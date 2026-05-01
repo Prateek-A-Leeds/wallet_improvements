@@ -403,7 +403,7 @@ function Profile() {
   }
 
   return (
-    <section className="py-10">
+    <section className="py-6 sm:py-10">
       <Container>
         <div className="grid items-start gap-6 xl:grid-cols-[380px_minmax(0,1fr)]">
           <div className="space-y-5">
@@ -415,19 +415,19 @@ function Profile() {
                 <div className="absolute inset-0 bg-linear-to-t from-slate-900/35 via-slate-900/10 to-transparent" />
               </div>
 
-              <div className="relative px-6 pb-6">
-                <div className="-mt-14 flex justify-center">
+              <div className="relative px-4 pb-5 sm:px-6 sm:pb-6">
+                <div className="-mt-14 flex justify-center sm:-mt-14">
                   <div className="rounded-full bg-white p-1.5 shadow-lg dark:bg-slate-900">
                     <img
                       src={profile.profileImage}
                       alt={profile.name}
-                      className="h-28 w-28 rounded-full object-cover ring-4 ring-white dark:ring-slate-900"
+                      className="h-24 w-24 rounded-full object-cover ring-4 ring-white sm:h-28 sm:w-28 dark:ring-slate-900"
                     />
                   </div>
                 </div>
 
                 <div className="mt-4 text-center">
-                  <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                  <h1 className="text-xl font-bold text-slate-900 sm:text-2xl dark:text-slate-100">
                     {profile.name}
                   </h1>
                   <p className="mt-1 text-sm font-medium text-slate-500 dark:text-slate-400">
@@ -439,7 +439,7 @@ function Profile() {
                   <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                     Email
                   </p>
-                  <p className="mt-2 truncate text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  <p className="mt-2 break-all text-sm font-semibold text-slate-900 dark:text-slate-100 sm:break-normal">
                     {profile.email}
                   </p>
                 </div>

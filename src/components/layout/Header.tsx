@@ -5,11 +5,12 @@ import ProfileMenu from '@/components/layout/ProfileMenu';
 type HeaderProps = {
   onToggleSidebar: () => void;
   isSidebarOpen: boolean;
+  isMobile: boolean;
 };
 
 type SnackbarType = 'success' | 'error';
 
-function Header({ onToggleSidebar, isSidebarOpen }: HeaderProps) {
+function Header({ onToggleSidebar, isSidebarOpen, isMobile }: HeaderProps) {
   const navigate = useNavigate();
 
   const [snackbar, setSnackbar] = useState<{
@@ -48,9 +49,9 @@ function Header({ onToggleSidebar, isSidebarOpen }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white shadow-sm dark:border-b dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:shadow-none">
-        <div className="flex h-16 items-center justify-between px-2 pl-6 lg:px-6 lg:pl-8">
-          <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-40 bg-white/95 shadow-sm backdrop-blur dark:border-b dark:border-slate-800 dark:bg-slate-900/95 dark:text-slate-100 dark:shadow-none">
+        <div className="flex h-16 items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <button
               type="button"
               onClick={onToggleSidebar}
@@ -116,12 +117,12 @@ function Header({ onToggleSidebar, isSidebarOpen }: HeaderProps) {
               )}
             </button>
 
-            <span className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+            <span className="truncate text-base font-semibold text-slate-900 sm:text-lg dark:text-slate-100">
               Retail Wallet
             </span>
           </div>
 
-          <ProfileMenu onSignOut={handleSignOut} />
+          <ProfileMenu compact={isMobile} onSignOut={handleSignOut} />
         </div>
       </header>
 

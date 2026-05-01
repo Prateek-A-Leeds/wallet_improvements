@@ -7,7 +7,12 @@ import Sidebar from '@/components/layout/Sidebar';
 import { getWithExpiry } from '@/utils/auth';
 
 function MainLayout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 1024 : false,
+  );
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth >= 1024 : true,
+  );
   const [isSessionValid, setIsSessionValid] = useState(
     () => Boolean(getWithExpiry('token') && getWithExpiry('user', true)),
   );
@@ -15,6 +20,24 @@ function MainLayout() {
   const navigate = useNavigate();
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+  const closeSidebar = () => setIsSidebarOpen(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 1023px)');
+
+    const handleViewportChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      const matches = event.matches;
+      setIsMobile(matches);
+      setIsSidebarOpen(!matches);
+    };
+
+    handleViewportChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleViewportChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleViewportChange);
+    };
+  }, []);
 
   useEffect(() => {
     const redirectToLogin = () => {
@@ -69,12 +92,20 @@ function MainLayout() {
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <Sidebar isSidebarOpen={isSidebarOpen} />
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        isMobile={isMobile}
+        onClose={closeSidebar}
+      />
 
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        <Header isSidebarOpen={isSidebarOpen} onToggleSidebar={toggleSidebar} />
+        <Header
+          isSidebarOpen={isSidebarOpen}
+          isMobile={isMobile}
+          onToggleSidebar={toggleSidebar}
+        />
 
-        <main className="flex-1">
+        <main className="min-w-0 flex-1">
           <Outlet />
         </main>
 

@@ -12,6 +12,7 @@ type SidebarMenuItemProps = {
   item: NavItem;
   level?: number;
   isSidebarOpen: boolean;
+  onNavigate?: () => void;
 };
 
 type TooltipPosition = {
@@ -23,6 +24,7 @@ function SidebarMenuItem({
   item,
   level = 0,
   isSidebarOpen,
+  onNavigate,
 }: SidebarMenuItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -146,6 +148,7 @@ function SidebarMenuItem({
                 item={child}
                 level={level + 1}
                 isSidebarOpen={isSidebarOpen}
+                onNavigate={onNavigate}
               />
             ))}
           </div>
@@ -161,7 +164,11 @@ function SidebarMenuItem({
       onMouseLeave={handleMouseLeave}
       className="relative"
     >
-      <NavLink to={item.to || '#'} className={linkClass}>
+      <NavLink
+        to={item.to || '#'}
+        className={linkClass}
+        onClick={() => onNavigate?.()}
+      >
         {item.icon && <span className="shrink-0">{item.icon}</span>}
 
         <span

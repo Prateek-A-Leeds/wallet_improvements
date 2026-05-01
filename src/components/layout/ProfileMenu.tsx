@@ -7,11 +7,13 @@ type ThemeMode = 'system' | 'light' | 'dark';
 
 type ProfileMenuProps = {
   imageUrl?: string;
+  compact?: boolean;
   onSignOut?: () => void;
 };
 
 function ProfileMenu({
   imageUrl = 'https://i.pravatar.cc/100?img=12',
+  compact = false,
   onSignOut,
 }: ProfileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -104,18 +106,20 @@ function ProfileMenu({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex items-center gap-2 rounded-full border border-slate-200 bg-white p-1 pr-3 shadow-sm transition hover:bg-slate-50 dark:border-slate-500 dark:bg-slate-800 dark:hover:bg-slate-800"
+        className={`flex items-center rounded-full border border-slate-200 bg-white p-1 shadow-sm transition hover:bg-slate-50 dark:border-slate-500 dark:bg-slate-800 dark:hover:bg-slate-800 ${
+          compact ? 'gap-1 pr-1.5' : 'gap-2 pr-3'
+        }`}
         aria-label="Open profile menu"
         aria-expanded={isOpen}
       >
         <img
           src={imageUrl}
           alt="User profile"
-          className="h-9 w-9 rounded-full object-cover"
+          className={`${compact ? 'h-8 w-8' : 'h-9 w-9'} rounded-full object-cover`}
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className={`h-4 w-4 text-slate-600 dark:text-slate-100 transition ${isOpen ? 'rotate-180' : ''}`}
+          className={`text-slate-600 transition dark:text-slate-100 ${compact ? 'h-3.5 w-3.5' : 'h-4 w-4'} ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -130,7 +134,7 @@ function ProfileMenu({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full z-50 mt-3 w-72 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900">
+        <div className="absolute right-0 top-full z-50 mt-3 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-slate-200 bg-white p-2 shadow-xl dark:border-slate-800 dark:bg-slate-900">
           <div className="px-3 py-3">
             <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
               Theme
