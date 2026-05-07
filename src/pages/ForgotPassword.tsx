@@ -1,23 +1,25 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo.png';
+import Button from '@/components/common/Button';
+import { Panel, PanelInset } from '@/components/common/AppShell';
+import Toast from '@/components/common/Toast';
 
 function ForgotPassword() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-
   const [snackbar, setSnackbar] = useState({
     message: '',
-    type: 'success',
+    type: 'success' as 'success' | 'error',
     open: false,
   });
 
   const showSnackbar = (message: string) => {
     setSnackbar({ message, type: 'success', open: true });
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       setSnackbar((prev) => ({ ...prev, open: false }));
       navigate('/');
     }, 2000);
@@ -37,10 +39,7 @@ function ForgotPassword() {
 
     try {
       setLoading(true);
-
-      // 🔁 mock API
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
       showSnackbar('Reset link sent successfully');
     } catch {
       setSnackbar({
@@ -54,72 +53,72 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="relative flex h-screen items-center justify-center overflow-hidden bg-linear-to-br from-blue-50 to-indigo-100 px-4 dark:from-slate-950 dark:to-slate-900">
-      {/* Background glow (different from login) */}
-      <div className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-indigo-500/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl" />
+    <div className="app-shell flex min-h-[100dvh] items-center justify-center px-4 py-8">
+      <Panel className="w-full max-w-md p-4 sm:p-6">
+        <PanelInset className="p-6 sm:p-8">
+          <div className="mb-6 flex flex-col items-start">
+            <div className="flex h-14 w-14 items-center justify-center rounded-[1.4rem] border border-slate-200/70 bg-white/85 dark:border-slate-700 dark:bg-slate-900/80">
+              <img
+                src={logo}
+                alt="Parijat logo"
+                className="h-9 w-9 object-contain"
+              />
+            </div>
+            <div className="mt-5 app-tag">
+              <span className="app-kicker-dot" />
+              <span>Account recovery</span>
+            </div>
+            <h1 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-slate-50">
+              Forgot Password
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+              Enter your email address and we will send a reset link back to
+              your inbox.
+            </p>
+          </div>
 
-      <div className="relative w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900">
-        {/* Logo */}
-        <div className="mb-6 flex flex-col items-center text-center">
-          <img src={logo} className="h-12 w-12 object-contain" />
-          <h1 className="mt-3 text-xl font-semibold text-slate-900 dark:text-slate-100">
-            Forgot Password
-          </h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Enter your email to receive reset link
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                Email
+              </label>
+
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full rounded-[1.15rem] border border-slate-200/80 bg-white/90 px-4 py-3 text-sm outline-none placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-950/60 dark:text-white dark:placeholder:text-slate-500"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full justify-center py-3"
+              icon="arrow-right"
+            >
+              {loading ? 'Sending...' : 'Send Reset Link'}
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+            <Link
+              to="/"
+              className="font-semibold text-teal-700 hover:text-teal-600 dark:text-teal-300 dark:hover:text-teal-200"
+            >
+              Back to login
+            </Link>
           </p>
-        </div>
+        </PanelInset>
+      </Panel>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="mb-1 block text-sm text-slate-700 dark:text-slate-300">
-              Email
-            </label>
-
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500"
-            />
-          </div>
-
-          {/* Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 disabled:opacity-70"
-          >
-            {loading && (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            )}
-            {loading ? 'Sending...' : 'Send Reset Link'}
-          </button>
-        </form>
-
-        {/* Back to login */}
-        <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-          <Link to="/" className="text-blue-600 hover:underline">
-            Back to login
-          </Link>
-        </p>
-      </div>
-
-      {/* Snackbar */}
-      {snackbar.open && (
-        <div className="fixed left-1/2 top-10 z-9999 -translate-x-1/2">
-          <div
-            className={`rounded-xl px-4 py-3 text-sm text-white shadow-lg ${
-              snackbar.type === 'success' ? 'bg-green-600' : 'bg-red-600'
-            }`}
-          >
-            {snackbar.message}
-          </div>
-        </div>
-      )}
+      <Toast
+        open={snackbar.open}
+        message={snackbar.message}
+        variant={snackbar.type}
+        onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+      />
     </div>
   );
 }

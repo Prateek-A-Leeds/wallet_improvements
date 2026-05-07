@@ -3,6 +3,7 @@ import MainLayout from '@/layouts/MainLayout';
 import Home from '@/pages/Home';
 import NotFound from '@/pages/NotFound';
 import Profile from '@/pages/Profile';
+import Settings from '@/pages/Settings';
 import TicketHistory from '@/pages/TicketHistory';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsAndConditions from '@/pages/TermsAndConditions';
@@ -42,6 +43,7 @@ function AppRoutes() {
         <Route path="/cp-wise-budgeting" element={<CPWiseBudgeting />}></Route>
 
         <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
 
         <Route path="/ticket-history" element={<TicketHistory />} />
 

@@ -1,4 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
+import AppIcon from '@/components/common/AppIcon';
+import Button from '@/components/common/Button';
+import {
+  PageSection,
+  Panel,
+  PanelInset,
+  SectionHeading,
+} from '@/components/common/AppShell';
 import Container from '@/components/common/Container';
 import CPAppointmentDrawer, {
   type CPAppointmentRecord,
@@ -244,42 +252,45 @@ function CPWiseBudgeting() {
 
   return (
     <>
-      <section className="py-10">
+      <PageSection className="pb-8 pt-2">
         <Container>
-          <div className="rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-            <div className="border-b border-slate-200 px-6 py-5 dark:border-slate-800">
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                CP Wise Budgeting
-              </h1>
-              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-                View CP wise budget records by financial year, department, and
-                status.
-              </p>
-            </div>
+          <Panel className="p-5 sm:p-7">
+            <SectionHeading
+              eyebrow="Budget records"
+              title="CP Wise Budgeting"
+              description="Filter CP budgeting entries by financial year, department, and current status."
+            />
 
-            <div className="px-6 py-5">
-              <div className="mb-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_220px_160px]">
+            <div className="mt-6 space-y-5">
+              <PanelInset className="p-4 sm:p-5">
+                <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_220px_170px]">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Search
                   </label>
-                  <input
-                    type="text"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search by sr. no. or financial year"
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500"
-                  />
+                  <div className="relative">
+                    <AppIcon
+                      name="search"
+                      className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+                    />
+                    <input
+                      type="text"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      placeholder="Search by sr. no. or financial year"
+                      className="w-full rounded-[1.15rem] border border-slate-200/80 bg-white/90 py-3 pl-11 pr-4 text-sm text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-100 dark:placeholder:text-slate-500"
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Department
                   </label>
                   <select
                     value={departmentFilter}
                     onChange={(e) => setDepartmentFilter(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+                    className="w-full rounded-[1.15rem] border border-slate-200/80 bg-white/90 px-4 py-3 text-sm text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-100"
                   >
                     <option value="">All departments</option>
                     {departmentOptions.map((option) => (
@@ -291,13 +302,13 @@ function CPWiseBudgeting() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Status
                   </label>
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+                    className="w-full rounded-[1.15rem] border border-slate-200/80 bg-white/90 px-4 py-3 text-sm text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-100"
                   >
                     <option value="">All status</option>
                     {statusOptions.map((option) => (
@@ -309,7 +320,7 @@ function CPWiseBudgeting() {
                 </div>
 
                 <div className="flex items-end">
-                  <button
+                  <Button
                     type="button"
                     onClick={() => {
                       setSearch('');
@@ -318,42 +329,44 @@ function CPWiseBudgeting() {
                       setPageSize(10);
                       setCurrentPage(1);
                     }}
-                    className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                    variant="secondary"
+                    className="w-full justify-center py-3"
                   >
                     Reset
-                  </button>
+                  </Button>
                 </div>
               </div>
+              </PanelInset>
 
-              <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+              <PanelInset className="overflow-hidden">
                 <div className="max-h-[calc(100vh-320px)] overflow-y-auto overflow-x-auto scroll-smooth [scrollbar-width:none]">
-                  <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
-                    <thead className="sticky top-0 z-10 bg-amber-400 dark:bg-amber-500">
+                  <table className="min-w-full divide-y divide-slate-200/70 dark:divide-slate-800">
+                    <thead className="sticky top-0 z-10 bg-slate-950 text-white dark:bg-slate-900">
                       <tr>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Sr. No.
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Financial Year
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Department
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Status
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Action
                         </th>
                       </tr>
                     </thead>
 
-                    <tbody className="divide-y divide-slate-200 bg-white dark:divide-slate-800 dark:bg-slate-900">
+                    <tbody className="divide-y divide-slate-200/70 bg-white/85 dark:divide-slate-800 dark:bg-slate-950/30">
                       {paginatedRows.length > 0 ? (
                         paginatedRows.map((row) => (
                           <tr
                             key={row.id}
-                            className="transition hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                            className="transition hover:bg-slate-50/80 dark:hover:bg-slate-900/50"
                           >
                             <td className="px-4 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
                               {row.serialNumber}
@@ -383,7 +396,7 @@ function CPWiseBudgeting() {
                                 className={`font-medium transition ${
                                   row.status === 'Approved by Retail Head'
                                     ? 'cursor-not-allowed text-gray-500 opacity-60 dark:text-slate-500'
-                                    : 'cursor-pointer text-teal-600 hover:text-teal-700 hover:underline dark:text-teal-400 dark:hover:text-teal-300'
+                                    : 'cursor-pointer text-teal-700 hover:text-teal-600 hover:underline dark:text-teal-300 dark:hover:text-teal-200'
                                 }`}
                               >
                                 View
@@ -404,9 +417,9 @@ function CPWiseBudgeting() {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </PanelInset>
 
-              <div className="mt-4 flex flex-col gap-3 border-t border-slate-200 pt-4 lg:flex-row lg:items-center lg:justify-between dark:border-slate-800">
+              <div className="flex flex-col gap-3 border-t border-slate-200/70 pt-4 lg:flex-row lg:items-center lg:justify-between dark:border-slate-800">
                 <div className="text-sm text-slate-600 dark:text-slate-400">
                   Showing <span className="font-semibold">{startRow}</span> to{' '}
                   <span className="font-semibold">{endRow}</span> of{' '}
@@ -426,7 +439,7 @@ function CPWiseBudgeting() {
                         ) as (typeof pageSizeOptions)[number],
                       );
                     }}
-                    className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+                    className="rounded-full border border-slate-200/80 bg-white/90 px-4 py-2.5 text-sm text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-100"
                   >
                     {pageSizeOptions.map((size) => (
                       <option key={size} value={size}>
@@ -441,7 +454,7 @@ function CPWiseBudgeting() {
                     type="button"
                     onClick={() => setCurrentPage(1)}
                     disabled={currentPage === 1}
-                    className="rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                    className="rounded-full border border-slate-200/80 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900"
                   >
                     First
                   </button>
@@ -452,12 +465,12 @@ function CPWiseBudgeting() {
                       setCurrentPage((prev) => Math.max(1, prev - 1))
                     }
                     disabled={currentPage === 1}
-                    className="rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                    className="rounded-full border border-slate-200/80 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900"
                   >
                     {'<'}
                   </button>
 
-                  <span className="rounded-xl bg-slate-100 px-3 py-2 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                  <span className="rounded-full bg-slate-100 px-3 py-2 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">
                     {totalRows === 0 ? 0 : currentPage}
                   </span>
 
@@ -467,7 +480,7 @@ function CPWiseBudgeting() {
                       setCurrentPage((prev) => Math.min(totalPages, prev + 1))
                     }
                     disabled={currentPage === totalPages || totalRows === 0}
-                    className="rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                    className="rounded-full border border-slate-200/80 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900"
                   >
                     {'>'}
                   </button>
@@ -476,16 +489,16 @@ function CPWiseBudgeting() {
                     type="button"
                     onClick={() => setCurrentPage(totalPages)}
                     disabled={currentPage === totalPages || totalRows === 0}
-                    className="rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                    className="rounded-full border border-slate-200/80 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900"
                   >
                     Last
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+          </Panel>
         </Container>
-      </section>
+      </PageSection>
 
       <CPAppointmentDrawer
         open={Boolean(selectedRow)}

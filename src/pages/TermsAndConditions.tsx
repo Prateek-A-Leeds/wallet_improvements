@@ -1,5 +1,6 @@
 import Container from '@/components/common/Container';
 import { formatDateWithSuffix } from '@/components/common/FormatDateSuffix';
+import { Panel, PanelInset } from '@/components/common/AppShell';
 
 const lastUpdatedDate = '09-10-2017';
 
@@ -167,7 +168,7 @@ function TermsAndConditions() {
     <section className="py-8 md:py-10">
       <Container>
         <div className="space-y-6">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
+          <Panel className="p-6 md:p-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div className="max-w-3xl">
                 <div className="mb-3 inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 dark:bg-slate-800 dark:text-blue-400">
@@ -185,7 +186,7 @@ function TermsAndConditions() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-950">
+              <div className="rounded-2xl border border-slate-200/80 bg-slate-50 px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-950">
                 <p className="text-slate-500 dark:text-slate-400">
                   Last updated
                 </p>
@@ -194,11 +195,11 @@ function TermsAndConditions() {
                 </p>
               </div>
             </div>
-          </div>
+          </Panel>
 
           <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
             <aside className="hidden lg:block">
-              <div className="sticky top-24 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <Panel className="hover-scrollbar sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto p-4">
                 <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                   On this page
                 </p>
@@ -214,41 +215,43 @@ function TermsAndConditions() {
                     </a>
                   ))}
                 </nav>
-              </div>
+              </Panel>
             </aside>
 
-            <div className="space-y-5">
-              {sections.map((section, index) => (
-                <article
-                  key={section.id}
-                  id={section.id}
-                  className="scroll-mt-20 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-7"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-sm font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                      {index + 1}
-                    </div>
+            <Panel className="p-3 md:p-4">
+              <div className="hover-scrollbar space-y-5 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto lg:pr-2">
+                {sections.map((section, index) => (
+                  <PanelInset
+                    key={section.id}
+                    id={section.id}
+                    className="scroll-mt-20 p-6 md:p-7"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-sm font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                        {index + 1}
+                      </div>
 
-                    <div className="min-w-0 flex-1">
-                      <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                        {section.title}
-                      </h2>
+                      <div className="min-w-0 flex-1">
+                        <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                          {section.title}
+                        </h2>
 
-                      <div className="mt-4 space-y-3">
-                        {section.content.map((item, itemIndex) => (
-                          <p
-                            key={itemIndex}
-                            className={`text-sm leading-7 text-slate-600 dark:text-slate-400mt-4 font-medium dark:text-slate-200`}
-                          >
-                            {item}
-                          </p>
-                        ))}
+                        <div className="mt-4 space-y-3">
+                          {section.content.map((item, itemIndex) => (
+                            <p
+                              key={itemIndex}
+                              className="text-sm font-medium leading-7 text-slate-600 dark:text-slate-200"
+                            >
+                              {item}
+                            </p>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+                  </PanelInset>
+                ))}
+              </div>
+            </Panel>
           </div>
         </div>
       </Container>

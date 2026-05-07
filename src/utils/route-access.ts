@@ -6,6 +6,7 @@ export function generateRouteAccessMap(): RouteAccessMap {
   const map: RouteAccessMap = {
     '/home': ['admin', 'salesman', 'support'],
     '/profile': ['admin', 'salesman', 'support'],
+    '/settings': ['admin', 'salesman', 'support'],
     '/ticket-history': ['admin', 'support'],
     '/terms-and-conditions': ['admin', 'salesman', 'support'],
     '/privacy-policy': ['admin', 'salesman', 'support'],

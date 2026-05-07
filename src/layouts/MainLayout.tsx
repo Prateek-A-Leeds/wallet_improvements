@@ -5,13 +5,14 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import { getWithExpiry } from '@/utils/auth';
+import { applyDefaultTheme, applyTheme, getStoredThemeForUser } from '@/utils/theme';
 
 function MainLayout() {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth < 1024 : false,
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth >= 1024 : true,
+    typeof window !== 'undefined' ? window.innerWidth < 1024 : false,
   );
   const [isSessionValid, setIsSessionValid] = useState(
     () => Boolean(getWithExpiry('token') && getWithExpiry('user', true)),
@@ -28,7 +29,7 @@ function MainLayout() {
     const handleViewportChange = (event: MediaQueryListEvent | MediaQueryList) => {
       const matches = event.matches;
       setIsMobile(matches);
-      setIsSidebarOpen(!matches);
+      setIsSidebarOpen(false);
     };
 
     handleViewportChange(mediaQuery);
@@ -40,6 +41,11 @@ function MainLayout() {
   }, []);
 
   useEffect(() => {
+    const user = getWithExpiry<{ username?: string }>('user', true);
+    applyTheme(getStoredThemeForUser(user?.username));
+  }, []);
+
+  useEffect(() => {
     const redirectToLogin = () => {
       if (hasRedirected.current) return;
 
@@ -48,6 +54,7 @@ function MainLayout() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       sessionStorage.clear();
+      applyDefaultTheme();
 
       navigate('/', {
         replace: true,
@@ -91,14 +98,14 @@ function MainLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="app-shell flex min-h-[100dvh] text-slate-900 dark:text-slate-100">
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         isMobile={isMobile}
         onClose={closeSidebar}
       />
 
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
+      <div className="flex min-h-[100dvh] min-w-0 flex-1 flex-col">
         <Header
           isSidebarOpen={isSidebarOpen}
           isMobile={isMobile}

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AppIcon from '@/components/common/AppIcon';
+import Toast from '@/components/common/Toast';
 import ProfileMenu from '@/components/layout/ProfileMenu';
+import { applyDefaultTheme } from '@/utils/theme';
 
 type HeaderProps = {
   onToggleSidebar: () => void;
@@ -30,7 +33,7 @@ function Header({ onToggleSidebar, isSidebarOpen, isMobile }: HeaderProps) {
       type,
     });
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       setSnackbar((prev) => ({ ...prev, open: false }));
     }, 2000);
   };
@@ -39,112 +42,59 @@ function Header({ onToggleSidebar, isSidebarOpen, isMobile }: HeaderProps) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     sessionStorage.clear();
+    applyDefaultTheme();
 
     showSnackbar('Signed out successfully', 'success');
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       navigate('/');
     }, 1000);
   };
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white/95 shadow-sm backdrop-blur dark:border-b dark:border-slate-800 dark:bg-slate-900/95 dark:text-slate-100 dark:shadow-none">
-        <div className="flex h-16 items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+      <header className="sticky top-0 z-40 px-4 pb-4 pt-4 sm:px-6 lg:px-8">
+        <div className="app-surface mx-auto flex min-h-18 max-w-[1400px] items-center justify-between gap-4 rounded-[1.8rem] px-4 py-3 sm:px-5">
+          <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
               onClick={onToggleSidebar}
               aria-label="Toggle sidebar"
-              className="cursor-pointer rounded-md p-2 text-slate-700 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+              className="group flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200/80 bg-white/80 text-slate-700 hover:border-slate-300 hover:bg-white hover:text-slate-950 active:scale-[0.97] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-900"
             >
-              {isSidebarOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    d="M21.97 15V9C21.97 4 19.97 2 14.97 2H8.96997C3.96997 2 1.96997 4 1.96997 9V15C1.96997 20 3.96997 22 8.96997 22H14.97C19.97 22 21.97 20 21.97 15Z"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M7.96997 2V22"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.97 9.43994L12.41 11.9999L14.97 14.5599"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    d="M21.97 15V9C21.97 4 19.97 2 14.97 2H8.96997C3.96997 2 1.96997 4 1.96997 9V15C1.96997 20 3.96997 22 8.96997 22H14.97C19.97 22 21.97 20 21.97 15Z"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14.97 2V22"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M7.96997 9.43994L10.53 11.9999L7.96997 14.5599"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
+              <AppIcon
+                name={isSidebarOpen ? 'menu-open' : 'menu-closed'}
+                className="h-5 w-5 transition group-hover:-translate-y-px"
+              />
             </button>
 
-            <span className="truncate text-base font-semibold text-slate-900 sm:text-lg dark:text-slate-100">
-              Retail Wallet
-            </span>
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                Workspace
+              </p>
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="truncate text-base font-semibold tracking-[-0.03em] text-slate-950 sm:text-lg dark:text-slate-50">
+                  Retail Wallet
+                </span>
+                {!isMobile ? (
+                  <span className="hidden rounded-full border border-teal-200 bg-teal-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-teal-700 lg:inline-flex dark:border-teal-500/20 dark:bg-teal-500/10 dark:text-teal-200">
+                    Live
+                  </span>
+                ) : null}
+              </div>
+            </div>
           </div>
 
           <ProfileMenu compact={isMobile} onSignOut={handleSignOut} />
         </div>
       </header>
 
-      {snackbar.open && (
-        <div className="fixed left-1/2 bottom-15 z-9999 -translate-x-1/2">
-          <div
-            className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-white shadow-lg ${
-              snackbar.type === 'success' ? 'bg-green-600' : 'bg-red-600'
-            }`}
-          >
-            <span>{snackbar.message}</span>
-
-            <button
-              type="button"
-              onClick={() => setSnackbar((prev) => ({ ...prev, open: false }))}
-              className="ml-2 text-xs opacity-80 hover:opacity-100"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
+      <Toast
+        open={snackbar.open}
+        message={snackbar.message}
+        variant={snackbar.type}
+        onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+      />
     </>
   );
 }

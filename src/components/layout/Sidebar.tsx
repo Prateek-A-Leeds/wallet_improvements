@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo.png';
+import AppIcon from '@/components/common/AppIcon';
 import SidebarMenuItem from '@/components/layout/SidebarMenuItem';
 import { getSidebarNavItems } from '@/components/layout/sidebar-utils';
 
@@ -10,7 +11,18 @@ type SidebarProps = {
 };
 
 function Sidebar({ isSidebarOpen, isMobile, onClose }: SidebarProps) {
+  const navigate = useNavigate();
   const navItems = getSidebarNavItems();
+
+  const handleGoHome = () => {
+    navigate('/home');
+
+    if (isMobile) {
+      window.setTimeout(() => {
+        onClose();
+      }, 0);
+    }
+  };
 
   return (
     <>
@@ -19,83 +31,87 @@ function Sidebar({ isSidebarOpen, isMobile, onClose }: SidebarProps) {
           type="button"
           aria-label="Close sidebar overlay"
           onClick={onClose}
-          className="fixed inset-0 z-70 bg-slate-950/45 backdrop-blur-[1px] lg:hidden"
+          className="fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-[2px] lg:hidden"
         />
       )}
 
       <aside
-        className={`z-80 flex h-screen flex-col bg-white shadow-sm transition-all duration-300 dark:border-slate-800 dark:bg-slate-900 ${
+        className={`flex h-[100dvh] flex-col px-4 pb-4 pt-4 transition-all duration-500 lg:z-40 lg:pb-6 ${
           isMobile
-            ? `fixed inset-y-0 left-0 w-[18.5rem] max-w-[88vw] border-r ${
-                isSidebarOpen
-                  ? 'translate-x-0 shadow-2xl'
-                  : '-translate-x-full shadow-none'
-              }`
-            : `sticky top-0 border-r ${isSidebarOpen ? 'w-64' : 'w-20'}`
+            ? `fixed inset-y-0 left-0 z-60 w-[19rem] max-w-[88vw] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
+            : `${isSidebarOpen ? 'w-[19rem]' : 'w-[6.75rem]'}`
         }`}
       >
-        <div className="flex h-16 shrink-0 items-center border-slate-200 px-4 dark:border-slate-800">
-          <Link
-            to="/home"
-            title="Return to Homepage"
-            onClick={isMobile ? onClose : undefined}
-            className={`group relative flex items-center transition ${
-              isSidebarOpen ? 'gap-2' : 'w-full justify-center'
-            }`}
-          >
-            <img
-              src={logo}
-              alt="Parijat Industries"
-              className="h-10 w-10 object-contain"
-            />
-
-            <span
-              className={`overflow-hidden whitespace-nowrap text-lg font-semibold text-slate-900 transition-all duration-300 dark:text-slate-100 ${
-                isSidebarOpen
-                  ? 'ml-2 max-w-37.5 translate-x-0 opacity-100'
-                  : 'ml-0 max-w-0 -translate-x-2 opacity-0'
-              }`}
-            >
-              Parijat Industries
-            </span>
-          </Link>
-
-          {isMobile && (
+        <div className="app-surface flex h-full min-h-0 flex-col overflow-hidden rounded-[2rem]">
+          <div className="flex h-20 shrink-0 items-center border-b border-slate-200/70 px-4 dark:border-slate-800/80">
             <button
               type="button"
-              onClick={onClose}
-              className="ml-auto rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
-              aria-label="Close sidebar"
+              title="Return to Homepage"
+              onClick={handleGoHome}
+              className={`group cursor-pointer flex min-w-0 items-center text-left transition ${
+                isSidebarOpen ? 'gap-3' : 'w-full justify-center'
+              }`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18 18 6M6 6l12 12"
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-slate-200/70 bg-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] dark:border-slate-700 dark:bg-slate-900/80">
+                <img
+                  src={logo}
+                  alt="Parijat Industries"
+                  className="h-8 w-8 object-contain"
                 />
-              </svg>
-            </button>
-          )}
-        </div>
+              </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overflow-x-visible p-3 [scrollbar-width:none]">
-          <nav className="space-y-2 overflow-visible">
-            {navItems.map((item, index) => (
-              <SidebarMenuItem
-                key={`${item.label}-${index}`}
-                item={item}
-                isSidebarOpen={isSidebarOpen}
-                onNavigate={isMobile ? onClose : undefined}
-              />
-            ))}
-          </nav>
+              <div
+                className={`min-w-0 overflow-hidden transition-all duration-300 ${
+                  isSidebarOpen
+                    ? 'max-w-40 translate-x-0 opacity-100'
+                    : 'max-w-0 -translate-x-2 opacity-0'
+                }`}
+              >
+                <p className="truncate text-sm font-semibold tracking-[-0.03em] text-slate-950 dark:text-slate-50">
+                  Parijat Industries
+                </p>
+                <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                  Sales and planning workspace
+                </p>
+              </div>
+            </button>
+
+            {isMobile ? (
+              <button
+                type="button"
+                onClick={onClose}
+                className="ml-auto flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/80 bg-white/70 text-slate-600 hover:border-slate-300 hover:text-slate-950 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:text-white"
+                aria-label="Close sidebar"
+              >
+                <AppIcon name="close" className="h-4 w-4" />
+              </button>
+            ) : null}
+          </div>
+
+          <div className="hover-scrollbar min-h-0 flex-1 overflow-y-auto px-3 py-4">
+            <div className="mb-4 px-2">
+              <p
+                className={`overflow-hidden text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 transition-all dark:text-slate-400 ${
+                  isSidebarOpen
+                    ? 'max-w-32 translate-x-0 opacity-100'
+                    : 'max-w-0 -translate-x-2 opacity-0'
+                }`}
+              >
+                Navigation
+              </p>
+            </div>
+
+            <nav className="space-y-1.5">
+              {navItems.map((item, index) => (
+                <SidebarMenuItem
+                  key={`${item.label}-${index}`}
+                  item={item}
+                  isSidebarOpen={isSidebarOpen}
+                  onNavigate={isMobile ? onClose : undefined}
+                />
+              ))}
+            </nav>
+          </div>
         </div>
       </aside>
     </>

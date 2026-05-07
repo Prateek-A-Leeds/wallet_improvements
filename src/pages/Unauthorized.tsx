@@ -1,39 +1,41 @@
 import { Link } from 'react-router-dom';
+import AppIcon from '@/components/common/AppIcon';
+import Button from '@/components/common/Button';
+import { Panel, PanelInset } from '@/components/common/AppShell';
 
 function Unauthorized() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 dark:bg-slate-950">
-      <div className="max-w-md text-center">
-        {/* Icon */}
-        <div className="mb-6 text-6xl">🚫</div>
+    <div className="app-shell flex min-h-[100dvh] items-center justify-center px-4 py-8">
+      <Panel className="w-full max-w-lg p-4 sm:p-6">
+        <PanelInset className="p-8 text-center">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-300">
+            <AppIcon name="close" className="h-7 w-7" />
+          </div>
 
-        {/* Title */}
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
-          403 - Unauthorized
-        </h1>
+          <div className="mt-5 app-tag mx-auto w-max">
+            <span className="app-kicker-dot" />
+            <span>Access denied</span>
+          </div>
 
-        {/* Description */}
-        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
-          You do not have permission to access this page.
-        </p>
+          <h1 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-slate-50">
+            403 - Unauthorized
+          </h1>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600 dark:text-slate-300">
+            You do not have permission to access this page. Return to the
+            dashboard or sign in with an account that has the right role.
+          </p>
 
-        {/* Actions */}
-        <div className="mt-6 flex justify-center gap-3">
-          <Link
-            to="/home"
-            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-          >
-            Go to Home
-          </Link>
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link to="/home">
+              <Button icon="arrow-right">Go to Home</Button>
+            </Link>
 
-          <Link
-            to="/"
-            className="rounded-xl border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-          >
-            Login
-          </Link>
-        </div>
-      </div>
+            <Link to="/">
+              <Button variant="secondary">Login</Button>
+            </Link>
+          </div>
+        </PanelInset>
+      </Panel>
     </div>
   );
 }

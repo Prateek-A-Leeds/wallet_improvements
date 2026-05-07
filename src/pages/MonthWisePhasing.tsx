@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { PageSection, Panel, PanelInset, SectionHeading } from '@/components/common/AppShell';
 import Container from '@/components/common/Container';
 import MonthWisePhasingDrawer, {
   type MonthWisePhasingRecord,
@@ -192,49 +193,45 @@ function MonthWisePhasing() {
 
   return (
     <>
-      <section className="py-10">
+      <PageSection className="pb-8 pt-2">
         <Container>
-          <div className="rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-            <div className="border-b border-slate-200 px-6 py-5 dark:border-slate-800">
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                Month Wise Phasing
-              </h1>
-              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-                View month wise phasing records by financial year and
-                department.
-              </p>
-            </div>
+          <Panel className="p-5 sm:p-7">
+            <SectionHeading
+              eyebrow="Planning records"
+              title="Month Wise Phasing"
+              description="Review month wise phasing records by financial year and department."
+            />
 
-            <div className="px-6 py-5">
-              <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+            <div className="mt-6">
+              <PanelInset className="overflow-hidden">
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
-                    <thead className="bg-amber-400/90 dark:bg-amber-500/80">
+                  <table className="min-w-full divide-y divide-slate-200/70 dark:divide-slate-800">
+                    <thead className="bg-slate-950 dark:bg-slate-900">
                       <tr>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Sr. No.
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Financial Year
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Department
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Status
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-900">
+                        <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/88">
                           Action
                         </th>
                       </tr>
                     </thead>
 
-                    <tbody className="divide-y divide-slate-200 bg-white dark:divide-slate-800 dark:bg-slate-900">
+                    <tbody className="divide-y divide-slate-200/70 bg-white/85 dark:divide-slate-800 dark:bg-slate-950/30">
                       {rows.length > 0 ? (
                         rows.map((row) => (
                           <tr
                             key={row.id}
-                            className="transition hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                            className="transition hover:bg-slate-50/80 dark:hover:bg-slate-900/50"
                           >
                             <td className="px-4 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
                               {row.serialNumber}
@@ -264,7 +261,7 @@ function MonthWisePhasing() {
                                 className={`font-medium transition ${
                                   row.status === 'Approved by Retail Head'
                                     ? 'cursor-not-allowed text-gray-500 opacity-60 dark:text-slate-500'
-                                    : 'cursor-pointer text-teal-600 hover:text-teal-700 hover:underline dark:text-teal-400 dark:hover:text-teal-300'
+                                    : 'cursor-pointer text-teal-700 hover:text-teal-600 hover:underline dark:text-teal-300 dark:hover:text-teal-200'
                                 }`}
                               >
                                 View
@@ -285,11 +282,11 @@ function MonthWisePhasing() {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </PanelInset>
             </div>
-          </div>
+          </Panel>
         </Container>
-      </section>
+      </PageSection>
 
       <MonthWisePhasingDrawer
         open={Boolean(selectedRow)}

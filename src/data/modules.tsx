@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import AppIcon from '@/components/common/AppIcon';
 
 export type UserRole = 'admin' | 'salesman' | 'support';
 
@@ -16,7 +17,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'Planning',
     description: 'Manage planning and budgeting workflows.',
     roles: ['admin', 'support', 'salesman'],
-    icon: <span>🗂️</span>,
+    icon: <AppIcon name="planning" className="h-5 w-5" />,
     children: [
       {
         title: 'Budget',
@@ -55,7 +56,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'Performance',
     description: 'Manage performance dashboards and reports.',
     roles: ['admin'],
-    icon: <span>📈</span>,
+    icon: <AppIcon name="performance" className="h-5 w-5" />,
     children: [
       {
         title: 'Overview',
@@ -101,7 +102,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'Forecast',
     description: 'Track leads, pipelines, and conversions.',
     roles: ['admin', 'salesman'],
-    icon: <span>🔮</span>, // 👈 changed (unique + meaningful)
+    icon: <AppIcon name="forecast" className="h-5 w-5" />,
     children: [
       {
         title: 'Collection Forecast',
@@ -162,7 +163,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'Inventory',
     description: 'Manage products, stock, and suppliers.',
     roles: ['admin', 'salesman'],
-    icon: <span>📦</span>,
+    icon: <AppIcon name="inventory" className="h-5 w-5" />,
     children: [
       { title: 'Products', to: '/inventory/products', roles: ['salesman'] },
       { title: 'Stock', to: '/inventory/stock', roles: ['admin'] },
@@ -189,7 +190,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'Finance',
     description: 'Manage invoices, expenses, and payments.',
     roles: ['admin'],
-    icon: <span>💳</span>,
+    icon: <AppIcon name="finance" className="h-5 w-5" />,
     children: [
       { title: 'Invoices', to: '/finance/invoices', roles: ['admin'] },
       { title: 'Payments', to: '/finance/payments', roles: ['admin'] },
@@ -216,7 +217,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'HRMS',
     description: 'Employee, attendance, and leave modules.',
     roles: ['admin', 'support'],
-    icon: <span>🧑‍💼</span>,
+    icon: <AppIcon name="hrms" className="h-5 w-5" />,
     children: [
       { title: 'Employees', to: '/hrms/employees', roles: ['admin'] },
       { title: 'Attendance', to: '/hrms/attendance', roles: ['support'] },
@@ -239,7 +240,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'Analytics',
     description: 'Business insights and dashboards.',
     roles: ['admin'],
-    icon: <span>📊</span>,
+    icon: <AppIcon name="analytics" className="h-5 w-5" />,
     children: [
       {
         title: 'Executive Dashboard',
