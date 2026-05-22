@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import logo from '@/assets/logo.png';
 import AppIcon from '@/components/common/AppIcon';
 import SidebarMenuItem from '@/components/layout/SidebarMenuItem';
@@ -14,6 +17,35 @@ function Sidebar({ isSidebarOpen, isMobile, onClose }: SidebarProps) {
   const navigate = useNavigate();
   const navItems = getSidebarNavItems();
 
+  const [search, setSearch] = useState('');
+
+  const filteredNavItems = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
+    if (!query) return navItems;
+
+    const filterItems = (items: any[]): any[] => {
+      return items.reduce((acc: any[], item) => {
+        const children = item.children ? filterItems(item.children) : [];
+        const isLeaf = !item.children || item.children.length === 0;
+
+        const leafMatch =
+          isLeaf && item.label?.toLowerCase().includes(query);
+
+        if (leafMatch || children.length > 0) {
+          acc.push({
+            ...item,
+            children,
+          });
+        }
+
+        return acc;
+      }, []);
+    };
+
+    return filterItems(navItems);
+  }, [navItems, search]);
+
   const handleGoHome = () => {
     navigate('/home');
 
@@ -23,6 +55,8 @@ function Sidebar({ isSidebarOpen, isMobile, onClose }: SidebarProps) {
       }, 0);
     }
   };
+
+  const isSearching = search.trim().length > 0;
 
   return (
     <>
@@ -38,7 +72,9 @@ function Sidebar({ isSidebarOpen, isMobile, onClose }: SidebarProps) {
       <aside
         className={`flex h-[100dvh] flex-col px-4 pb-4 pt-4 transition-all duration-500 lg:z-40 lg:pb-6 ${
           isMobile
-            ? `fixed inset-y-0 left-0 z-60 w-[19rem] max-w-[88vw] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
+            ? `fixed inset-y-0 left-0 z-60 w-[19rem] max-w-[88vw] ${
+                isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+              }`
             : `${isSidebarOpen ? 'w-[19rem]' : 'w-[6.75rem]'}`
         }`}
       >
@@ -48,7 +84,7 @@ function Sidebar({ isSidebarOpen, isMobile, onClose }: SidebarProps) {
               type="button"
               title="Return to Homepage"
               onClick={handleGoHome}
-              className={`group cursor-pointer flex min-w-0 items-center text-left transition ${
+              className={`group flex min-w-0 cursor-pointer items-center text-left transition ${
                 isSidebarOpen ? 'gap-3' : 'w-full justify-center'
               }`}
             >
@@ -101,16 +137,55 @@ function Sidebar({ isSidebarOpen, isMobile, onClose }: SidebarProps) {
               </p>
             </div>
 
+            {isSidebarOpen && (
+              <div className="mb-4 px-1">
+                <div className="flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/80 px-3 py-2 dark:border-slate-700 dark:bg-slate-950/60">
+                  <AppIcon
+                    name="search"
+                    className="h-4 w-4 shrink-0 text-slate-400"
+                  />
+
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search module"
+                    className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-slate-100"
+                  />
+
+                  {search && (
+                    <button
+                      type="button"
+                      onClick={() => setSearch('')}
+                      className="text-slate-400 transition hover:text-slate-700 dark:hover:text-slate-200"
+                      aria-label="Clear search"
+                    >
+                      <AppIcon name="close" className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             <nav className="space-y-1.5">
-              {navItems.map((item, index) => (
+              {filteredNavItems.map((item, index) => (
                 <SidebarMenuItem
                   key={`${item.label}-${index}`}
                   item={item}
                   isSidebarOpen={isSidebarOpen}
                   onNavigate={isMobile ? onClose : undefined}
+                  forceOpen={isSearching}
                 />
               ))}
             </nav>
+
+            {filteredNavItems.length === 0 && isSidebarOpen && (
+              <div className="px-3 py-6 text-center">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                  No module found.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </aside>

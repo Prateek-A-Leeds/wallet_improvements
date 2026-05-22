@@ -272,7 +272,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'Documents',
     description: 'Centralized document storage and templates.',
     roles: ['admin', 'salesman', 'support'],
-    icon: <span>📄</span>,
+    icon: <AppIcon name="document" className="h-5 w-5" />,
     children: [
       {
         title: 'All Documents',
@@ -304,7 +304,7 @@ export const dashboardModules: ModuleItem[] = [
     title: 'Notifications',
     description: 'Alerts, subscriptions, and announcements.',
     roles: ['admin', 'support'],
-    icon: <span>🔔</span>,
+    icon: <AppIcon name="notification" className="h-5 w-5" />,
     children: [
       {
         title: 'Announcements',

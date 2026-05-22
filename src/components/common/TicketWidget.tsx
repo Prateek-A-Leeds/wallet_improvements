@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import AppIcon from '@/components/common/AppIcon';
 import {
   dashboardModules,
   type ModuleItem,
@@ -376,20 +377,7 @@ function TicketWidget() {
             onClick={openDialog}
             className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition hover:scale-105 hover:bg-blue-700"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+            <AppIcon name="plus-circle" className="h-6 w-6" />
           </button>
         </div>
       </div>
@@ -410,20 +398,7 @@ function TicketWidget() {
                   className="rounded-md p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                   aria-label="Close dialog"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <AppIcon name="close" className="h-5 w-5" />
                 </button>
               </div>
 
@@ -546,38 +521,54 @@ function TicketWidget() {
                     }`}
                   >
                     <div className="flex items-center justify-between gap-3">
-                      <input
-                        ref={fileInputRef}
-                        id="ticket-attachment"
-                        name="attachment"
-                        type="file"
-                        accept=".jpg,.jpeg,.png,.webp,.pdf"
-                        onChange={handleAttachmentChange}
-                        className="block w-full text-sm text-slate-700 outline-none file:mr-4 file:rounded-lg file:border-0 file:bg-blue-50 file:px-3 file:py-2 file:text-sm file:font-medium file:text-blue-700 hover:file:bg-blue-100 dark:text-slate-200 dark:file:bg-slate-800 dark:file:text-slate-200"
-                      />
+                      <div className="flex items-center gap-3 text-slate-500 dark:text-slate-300">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800">
+                          <AppIcon name="document" className="h-4 w-4" />
+                        </div>
+
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                            {formData.attachment
+                              ? formData.attachment.name
+                              : 'Choose a document'}
+                          </p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
+                            JPG, PNG, WEBP, or PDF
+                          </p>
+                        </div>
+                      </div>
+
+                      {!formData.attachment && (
+                        <div className="shrink-0">
+                          <input
+                            ref={fileInputRef}
+                            id="ticket-attachment"
+                            name="attachment"
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.webp,.pdf"
+                            onChange={handleAttachmentChange}
+                            className="hidden"
+                          />
+
+                          <label
+                            htmlFor="ticket-attachment"
+                            className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                          >
+                            <AppIcon name="document" className="h-4 w-4" />
+                            Choose File
+                          </label>
+                        </div>
+                      )}
 
                       {formData.attachment && (
                         <button
                           type="button"
                           onClick={removeAttachment}
-                          className="shrink-0 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 hover:text-red-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-red-400"
+                          className="shrink-0 rounded-md p-1 cursor-pointer text-slate-500 transition hover:bg-slate-100 hover:text-red-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-red-400"
                           aria-label="Remove attachment"
                           title="Remove attachment"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
+                          <AppIcon name="close" className="h-4 w-4" />
                         </button>
                       )}
                     </div>
@@ -618,7 +609,15 @@ function TicketWidget() {
                       : 'bg-red-600 text-white'
                   }`}
                 >
-                  <p className="text-sm font-medium">{snackbar.message}</p>
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5">
+                      <AppIcon
+                        name={snackbar.type === 'success' ? 'spark' : 'close'}
+                        className="h-4 w-4"
+                      />
+                    </div>
+                    <p className="text-sm font-medium">{snackbar.message}</p>
+                  </div>
 
                   <button
                     type="button"
@@ -626,20 +625,7 @@ function TicketWidget() {
                     className="shrink-0 rounded-md p-1 hover:bg-white/10"
                     aria-label="Close notification"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
+                    <AppIcon name="close" className="h-4 w-4" />
                   </button>
                 </div>
               </div>

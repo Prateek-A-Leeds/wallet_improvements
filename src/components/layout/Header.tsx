@@ -48,7 +48,7 @@ function Header({ onToggleSidebar, isSidebarOpen, isMobile }: HeaderProps) {
 
     window.setTimeout(() => {
       navigate('/');
-    }, 1000);
+    }, 100);
   };
 
   return (
@@ -60,7 +60,7 @@ function Header({ onToggleSidebar, isSidebarOpen, isMobile }: HeaderProps) {
               type="button"
               onClick={onToggleSidebar}
               aria-label="Toggle sidebar"
-              className="group flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200/80 bg-white/80 text-slate-700 hover:border-slate-300 hover:bg-white hover:text-slate-950 active:scale-[0.97] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-900"
+              className="group flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200/80 bg-white/80 text-slate-700 hover:border-slate-300 hover:bg-white hover:text-slate-950 active:scale-[0.97] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-900 dark:hover:text-slate-200"
             >
               <AppIcon
                 name={isSidebarOpen ? 'menu-open' : 'menu-closed'}

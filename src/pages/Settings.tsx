@@ -45,7 +45,7 @@ function Settings() {
 
         <Panel className="p-5 sm:p-7">
           <PanelInset className="p-5 sm:p-6">
-            <div className="flex flex-col gap-6 border-b border-slate-200/70 pb-6 md:flex-row md:items-start md:justify-between dark:border-slate-800">
+            <div className="flex flex-col gap-6 border-slate-200/70 pb-6 md:flex-row md:items-start md:justify-between dark:border-slate-800">
               <div className="max-w-xl">
                 <p className="text-base font-semibold tracking-[-0.03em] text-slate-950 dark:text-slate-50">
                   Theme
@@ -67,13 +67,6 @@ function Settings() {
                   <option value="dark">Dark</option>
                 </select>
               </div>
-            </div>
-
-            <div className="pt-6">
-              <p className="text-xs leading-6 text-slate-500 dark:text-slate-400">
-                This preference is saved for the signed-in user. The login page
-                always opens with the default theme until a user signs in.
-              </p>
             </div>
           </PanelInset>
         </Panel>
